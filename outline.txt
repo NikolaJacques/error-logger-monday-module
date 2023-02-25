@@ -1,0 +1,16 @@
+parts: 
+- set up change stream on MongoDB
+- function to query bugs from Monday API
+- function to create new bug on Monday API
+
+-> when error is added to error logger back end, it generates a call to Monday API (via Axios)
+
+error logger:
+- create change stream
+
+monday module:
+- test Monday API (via Axios)
+- write function for querying bugs on Monday 
+- write function for creating new bug on Monday
+
+Monday microservice decoupled from error logger back end
