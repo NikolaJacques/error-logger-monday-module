@@ -1,28 +1,6 @@
 import axios from 'axios';
-import { API_KEY } from './env';
+import { API_KEY } from '../env';
 import { ErrorLogType } from 'intersection';
-
-export const getBugsQuery = (name:string) => { 
-    return {
-        query:`
-            query ($stack: String!) {
-                items_by_column_values (
-                    board_id: 1148727305, 
-                    column_id: "text", 
-                    column_value: $name
-                    ) {
-                        id
-                        column_values {
-                            id
-                            value
-                        }
-                }
-            }`,
-        variables: {
-            name
-        }
-    }
-};
 
 export const createBugQuery = (values: ErrorLogType<Date>) => {
     const date = new Date(values.timestamp);
@@ -54,7 +32,7 @@ export const createBugQuery = (values: ErrorLogType<Date>) => {
         }
 }};
 
-export const queryAPI = async (body:{query:string, variables?: Object}) => {
+export const queryAPI = async (body:{query:string, variables?: Object}, options:Object) => {
     try {
         const response = await axios({
             url:"https://api.monday.com/v2",
@@ -63,11 +41,13 @@ export const queryAPI = async (body:{query:string, variables?: Object}) => {
                 'Content-Type': 'application/json',
                 'Authorization' : `${API_KEY}`
             },
-            data: JSON.stringify(body)
+            data: JSON.stringify(body),
+            ...options
         });
-        return response.data.data;
+        return response;
     }
     catch(err:any){
         console.log(err.message);
+        throw err;
     }
 }
