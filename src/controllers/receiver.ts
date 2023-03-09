@@ -9,6 +9,7 @@ dotenv.config();
 
 export const postToMondayGrapQLAPI = async (req:TypedRequest<ErrorLogInterface, any>, res:Response, next: NextFunction) => {
   try{
+    res.status(200).json();
     const fetch = async () => await queryAPI(createBugQuery(req.body), {validateStatus: (status:number) => !(status >=400 && status < 600) || [400,408].includes(status)});
     let response = await fetch();
     let backoffCoefficient = 0;
@@ -17,11 +18,11 @@ export const postToMondayGrapQLAPI = async (req:TypedRequest<ErrorLogInterface, 
         await delay(backoffCoefficient);
         response = await fetch();
     }
-    const newLog = await WebhookLog.create({status: response!.status, payload:req.body});
+    const newLog = await WebhookLog.create({status: response.status?response.status:null, payload:req.body?req.body:null});
     await newLog.save();
 } catch(err:any) {
-    const newLog = await WebhookLog.create({status: err.response.status, payload:req.body});
+    console.log(err);
+    const newLog = await WebhookLog.create({status: err.response.status?err.response.status:500, payload:req.body?req.body:null});
     await newLog.save();
-    next(err);
 }
 }

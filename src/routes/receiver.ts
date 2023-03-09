@@ -1,8 +1,9 @@
 import { Router } from 'express';
-import {postToMondayGrapQLAPI} from '../controllers/changeStream';
+import {postToMondayGrapQLAPI} from '../controllers/receiver';
+import {authorization} from '../middleware/authorization';
 
 const router = Router();
 
-router.post('/', postToMondayGrapQLAPI);
+router.post('/', authorization, postToMondayGrapQLAPI);
 
 export default router;

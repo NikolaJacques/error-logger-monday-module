@@ -21,7 +21,7 @@ app.use((_, res, next) => {
 app.use('/', receiverRoutes);
 
 app.use((err: Error, _: Request, res: Response, _2: NextFunction) => {
-    res.json({...err});
+    res.status(500).json({...err});
 });
 
 mongoose.connect(MONGO_MONDAY_ERROR_LOGS!);

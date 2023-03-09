@@ -43,7 +43,7 @@ app.use((_, res, next) => {
 });
 app.use('/', receiver_1.default);
 app.use((err, _, res, _2) => {
-    res.json(Object.assign({}, err));
+    res.status(500).json(Object.assign({}, err));
 });
 mongoose_1.default.connect(env_1.MONGO_MONDAY_ERROR_LOGS);
 app.listen(4000);
