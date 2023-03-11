@@ -17,7 +17,7 @@ const axios_1 = __importDefault(require("axios"));
 const env_1 = require("../env");
 const createBugQuery = (values) => {
     const date = new Date(values.timestamp);
-    const dateStr = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate().toString().padStart(2, '0')}`;
+    const dateStr = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
     return {
         query: `mutation ($itemName: String!, $columnValues: JSON!) {
                     create_item(
